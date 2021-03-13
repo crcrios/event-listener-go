@@ -5,7 +5,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 
 )
@@ -13,13 +12,9 @@ import (
 
 func GetSecret()  {
 	
-	sess, err := session.NewSession(&aws.Config{
-		Region:      aws.String("us-west-2"),
-		Credentials: credentials.NewStaticCredentials("ASIAR3TCJVV7VN67IQEA", "emaPb3tuiRaBOg0F7/WFpg/yBFvm9YYLZKkGGP2Y", ""),})
-	if err != nil {
-		fmt.Println("Error creating session ", err)
-		return
-	}
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+	}))
 
 
 	svc := secretsmanager.New(sess)
