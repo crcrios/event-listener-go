@@ -7,7 +7,7 @@ import (
     "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 	"github.com/aws/aws-sdk-go/aws/awserr"
-	"github.com/aws/aws-sdk-go/aws/acmpca"
+	"github.com/aws/aws-sdk-go/service/acmpca"
 
 )
 
@@ -50,17 +50,18 @@ func GetSecret()  {
 
 	fmt.Println(result)
 
+	fmt.Println("----------------------------")
 
-	svc := acmpca.New(mySession)
-	input := &secretsmanager.GetCertificateInput{
+	svc2 := acmpca.New(sess)
+	input2 := &acmpca.GetCertificateInput{
 		CertificateArn: aws.String("arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20/certificate/958191b4df8c9f9853ceed6490632976"),
-		CertificateAuthorityArn : aws.String("arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20")
+		CertificateAuthorityArn : aws.String("arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20"),
 	}
 
-
-	result, err := svc.GetSecretValue(input)
-	if err != nil {
-		if aerr, ok := err.(awserr.Error); ok {
+	
+	result2, err2 := svc2.GetCertificate(input2)
+	if err2 != nil {
+		if aerr, ok := err2.(awserr.Error); ok {
 			switch aerr.Code() {
 			case secretsmanager.ErrCodeResourceNotFoundException:
 				fmt.Println(secretsmanager.ErrCodeResourceNotFoundException, aerr.Error())
@@ -78,12 +79,12 @@ func GetSecret()  {
 		} else {
 			// Print the error, cast err to awserr.Error to get the Code and
 			// Message from an error.
-			fmt.Println(err.Error())
+			fmt.Println(err2.Error())
 		}
 		return
 	}
 
-	fmt.Println(result)
+	fmt.Println(result2)
 
 
 }
