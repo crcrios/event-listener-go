@@ -52,12 +52,17 @@ func GetSecret()  {
 
 	fmt.Println("----------------------------")
 
+	sess, err = session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+		Config: aws.Config{Region: aws.String("us-east-1")},
+		Profile: "acm-pca-blockchain",
+	})
+
 	svc2 := acmpca.New(sess)
 	input2 := &acmpca.GetCertificateInput{
 		CertificateArn: aws.String("arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20/certificate/958191b4df8c9f9853ceed6490632976"),
 		CertificateAuthorityArn : aws.String("arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20"),
 	}
-
 	
 	result2, err2 := svc2.GetCertificate(input2)
 	if err2 != nil {
