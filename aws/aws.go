@@ -16,6 +16,7 @@ func GetSecret()  {
 	
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
+		Config: aws.Config{Region: aws.String("us-east-1")},
 	}))
 
 	svc := secretsmanager.New(sess)
