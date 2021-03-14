@@ -49,7 +49,7 @@ func GetSecret()  {
 		return
 	}
 
-	fmt.Println(result)
+	fmt.Println(result.SecretString)
 
 	fmt.Println("----------------------------")
 
