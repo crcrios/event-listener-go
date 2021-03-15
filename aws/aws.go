@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/acmpca"
+	"encoding/json"
 
 )
 
@@ -50,6 +51,13 @@ func GetSecret()  {
 	}
 
 	fmt.Println(result.SecretString)
+
+	// var f interface{}
+	// resultJson := json.Unmarshal(string(result), &f)
+	// fmt.Println(resultJson)
+
+
+
 
 	fmt.Println("----------------------------")
 
