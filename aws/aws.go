@@ -6,61 +6,69 @@ import (
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
-	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/acmpca"
 	"encoding/json"
 	"io/ioutil"
 
 )
 
-type TLS struct {
+type TLS_STUCT struct {
 	Key        string `json:"key"`
 	Cer        string `json:"cer"`
 	Chain      string `json:"chain"`
 }
 
-func GetSecret()  {
-	
+func GetSecretValue(secretId string) (string, error) {
+
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
 		Config: aws.Config{Region: aws.String("us-east-1")},
 	}))
 
-	svc := secretsmanager.New(sess)
+	smc := secretsmanager.New(sess)
 	input := &secretsmanager.GetSecretValueInput{
-		//SecretId: aws.String("nu0094001-blockchain-dev-ECDSA-orderer-1"),
-		SecretId: aws.String("nu0094001-blockchain-dev-cli-tls"),
+		SecretId: aws.String(secretId),
 	}
 
-	result, err := svc.GetSecretValue(input)
+	result, err := smc.GetSecretValue(input)
 	if err != nil {
-		if aerr, ok := err.(awserr.Error); ok {
-			switch aerr.Code() {
-			case secretsmanager.ErrCodeResourceNotFoundException:
-				fmt.Println(secretsmanager.ErrCodeResourceNotFoundException, aerr.Error())
-			case secretsmanager.ErrCodeInvalidParameterException:
-				fmt.Println(secretsmanager.ErrCodeInvalidParameterException, aerr.Error())
-			case secretsmanager.ErrCodeInvalidRequestException:
-				fmt.Println(secretsmanager.ErrCodeInvalidRequestException, aerr.Error())
-			case secretsmanager.ErrCodeDecryptionFailure:
-				fmt.Println(secretsmanager.ErrCodeDecryptionFailure, aerr.Error())
-			case secretsmanager.ErrCodeInternalServiceError:
-				fmt.Println(secretsmanager.ErrCodeInternalServiceError, aerr.Error())
-			default:
-				fmt.Println(aerr.Error())
-			}
-		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
-			fmt.Println(err.Error())
-		}
+		return "", err
+	}
+
+	return *result.SecretString, nil
+}
+
+func GetCertificate(CertificateArn string, CertificateAuthorityArn string)  (string, error) {
+
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
+		SharedConfigState: session.SharedConfigEnable,
+		Config: aws.Config{Region: aws.String("us-east-1")},
+		Profile: "acm-pca-blockchain",
+	}))
+
+	apc := acmpca.New(sess)
+	input := &acmpca.GetCertificateInput{
+		CertificateArn: aws.String(CertificateArn),
+		CertificateAuthorityArn : aws.String(CertificateAuthorityArn),
+	}
+	
+	result, err := apc.GetCertificate(input)
+	if err != nil {
+		return "",err
+	}
+
+	return *result.Certificate,nil
+}
+
+func ProvisionTlsCertificates() (err error) {
+
+	secretString,err := GetSecretValue("nu0094001-blockchain-dev-cli-tls")
+	if err != nil {
 		return
 	}
 
-	fmt.Println(*result.SecretString)
-
-	var tlsResult TLS
-	err = json.Unmarshal([]byte(*result.SecretString), &tlsResult)
+	var tlsResult TLS_STUCT
+	err = json.Unmarshal([]byte(secretString), &tlsResult)
 	fmt.Println(tlsResult.Key)
 	fmt.Println("################")
 	fmt.Println(tlsResult.Cer)
@@ -68,50 +76,48 @@ func GetSecret()  {
 	fmt.Println(tlsResult.Chain)
 	fmt.Println("################")
 	
-	err = ioutil.WriteFile("certs/tls/ca.crt", []byte(tlsResult.Key), 0644)
-
-
-
-	fmt.Println("----------------------------")
-
-	sess, err = session.NewSessionWithOptions(session.Options{
-		SharedConfigState: session.SharedConfigEnable,
-		Config: aws.Config{Region: aws.String("us-east-1")},
-		Profile: "acm-pca-blockchain",
-	})
-
-	svc2 := acmpca.New(sess)
-	input2 := &acmpca.GetCertificateInput{
-		CertificateArn: aws.String("arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20/certificate/958191b4df8c9f9853ceed6490632976"),
-		CertificateAuthorityArn : aws.String("arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20"),
+	err = ioutil.WriteFile("certs/tls/ca.crt", []byte(tlsResult.Chain), 0644)
+	if err != nil {
+		return
 	}
-	
-	result2, err2 := svc2.GetCertificate(input2)
-	if err2 != nil {
-		if aerr, ok := err2.(awserr.Error); ok {
-			switch aerr.Code() {
-			case secretsmanager.ErrCodeResourceNotFoundException:
-				fmt.Println(secretsmanager.ErrCodeResourceNotFoundException, aerr.Error())
-			case secretsmanager.ErrCodeInvalidParameterException:
-				fmt.Println(secretsmanager.ErrCodeInvalidParameterException, aerr.Error())
-			case secretsmanager.ErrCodeInvalidRequestException:
-				fmt.Println(secretsmanager.ErrCodeInvalidRequestException, aerr.Error())
-			case secretsmanager.ErrCodeDecryptionFailure:
-				fmt.Println(secretsmanager.ErrCodeDecryptionFailure, aerr.Error())
-			case secretsmanager.ErrCodeInternalServiceError:
-				fmt.Println(secretsmanager.ErrCodeInternalServiceError, aerr.Error())
-			default:
-				fmt.Println(aerr.Error())
-			}
-		} else {
-			// Print the error, cast err to awserr.Error to get the Code and
-			// Message from an error.
-			fmt.Println(err2.Error())
-		}
+	err = ioutil.WriteFile("certs/tls/client.crt", []byte(tlsResult.Cer), 0644)
+	if err != nil {
+		return
+	}
+	err = ioutil.WriteFile("certs/tls/client.key", []byte(tlsResult.Key), 0644)
+	if err != nil {
 		return
 	}
 
-	fmt.Println(*result2.Certificate)
+	return
+}
 
+func ProvisionMspCertificates() (err error) {
 
+	secretString,err := GetSecretValue("nu0094001-blockchain-dev-ECDSA-peer-admin")
+	if err != nil {
+		return
+	}
+
+	certificate,err := GetCertificate(secretString, "arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20")
+	if err != nil {
+		return
+	}
+
+	err = ioutil.WriteFile("certs/msp/Admin@Org0-cert.pem", []byte(certificate), 0644)
+	if err != nil {
+		return
+	}
+
+	secretString,err = GetSecretValue("nu0094001-blockchain-dev-ECDSA-Key-peer-admin")
+	if err != nil {
+		return
+	}
+
+	err = ioutil.WriteFile("certs/msp/priv_sk", []byte(secretString), 0644)
+	if err != nil {
+		return
+	}
+
+	return
 }
