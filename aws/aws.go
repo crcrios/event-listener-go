@@ -22,7 +22,8 @@ func GetSecret()  {
 
 	svc := secretsmanager.New(sess)
 	input := &secretsmanager.GetSecretValueInput{
-		SecretId: aws.String("nu0094001-blockchain-dev-ECDSA-orderer-1"),
+		//SecretId: aws.String("nu0094001-blockchain-dev-ECDSA-orderer-1"),
+		SecretId: aws.String("nu0094001-blockchain-dev-cli-tls"),
 	}
 
 	result, err := svc.GetSecretValue(input)
