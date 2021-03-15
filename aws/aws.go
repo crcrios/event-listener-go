@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/acmpca"
 	"encoding/json"
+	"io/ioutil"
 
 )
 
@@ -67,6 +68,7 @@ func GetSecret()  {
 	fmt.Println(tlsResult.Chain)
 	fmt.Println("################")
 	
+	err = ioutil.WriteFile("certs/tls/ca.crt", []byte(tlsResult.Key), 0644)
 
 
 
