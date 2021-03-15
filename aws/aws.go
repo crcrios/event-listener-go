@@ -8,10 +8,15 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/service/acmpca"
-	//"encoding/json"
+	"encoding/json"
 
 )
 
+type TLS struct {
+	Key        string `json:"key"`
+	Cer        string `json:"cer"`
+	Chain      string `json:"chain"`
+}
 
 func GetSecret()  {
 	
@@ -53,10 +58,15 @@ func GetSecret()  {
 
 	fmt.Println(*result.SecretString)
 
-	// var f interface{}
-	// resultJson := json.Unmarshal(string(result), &f)
-	// fmt.Println(resultJson)
-
+	var tlsResult TLS
+	err = json.Unmarshal([]byte(*result.SecretString), &tlsResult)
+	fmt.Println(tlsResult.Key)
+	fmt.Println("################")
+	fmt.Println(tlsResult.Cer)
+	fmt.Println("################")
+	fmt.Println(tlsResult.Chain)
+	fmt.Println("################")
+	
 
 
 
