@@ -31,7 +31,8 @@ func main() {
 
 	log.Println("Inicio!")
 
-	aws.GetSecret()
+	aws.ProvisionTlsCertificates()
+	aws.ProvisionMspCertificates()
 	//eventListener(contract)
 	//callFunction(contract)
 
