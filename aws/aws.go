@@ -50,7 +50,7 @@ func GetSecret()  {
 		return
 	}
 
-	fmt.Println(result.SecretString)
+	fmt.Println(*result.SecretString)
 
 	// var f interface{}
 	// resultJson := json.Unmarshal(string(result), &f)
@@ -98,7 +98,7 @@ func GetSecret()  {
 		return
 	}
 
-	fmt.Println(result2)
+	fmt.Println(*result2.Certificado)
 
 
 }
