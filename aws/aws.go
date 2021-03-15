@@ -98,7 +98,7 @@ func GetSecret()  {
 		return
 	}
 
-	fmt.Println(*result2.Certificado)
+	fmt.Println(*result2.Certificate)
 
 
 }
