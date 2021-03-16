@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	// "event/contract"
+	//"event/contract"
 
 	"event/aws"
 
@@ -34,7 +34,7 @@ func main() {
 	aws.ProvisionTlsCertificates()
 	aws.ProvisionMspCertificates()
 	//eventListener(contract)
-	//callFunction(contract)
+	// callFunction(contract)
 
 	log.Println("Funciona!")
 }

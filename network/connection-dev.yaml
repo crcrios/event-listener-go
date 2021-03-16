@@ -2,7 +2,7 @@
 name: test-network-org
 version: 1.0.0
 client:
-  organization: Org0
+  organization: Bancolombia
   connection:
     timeout:
       peer:
@@ -16,14 +16,14 @@ client:
         path: certs/tls/client.crt
 
 organizations:
-  Org0:
-    mspid: Org0
+  Bancolombia:
+    mspid: '007'
     peers:
-      - org0-peer0
+      - peer-1
 
 orderers:
   orderer0:
-    url: grpc://localhost:30100
+    url: grpc://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
     tlsCACerts:
       path: certs/orderer/tlsca.consortium-cert.pem
     grpcOptions:
@@ -31,18 +31,18 @@ orderers:
       hostnameOverride: orderer0
 
 peers:
-  org0-peer0:
-    url: grpcs://localhost:30200
+  peer-1:
+    url: grpcs://anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
     tlsCACerts:
       path: certs/tls/ca.crt
     grpcOptions:
-      ssl-target-name-override: org0-peer0
-      hostnameOverride: org0-peer0
+      ssl-target-name-override: peer-1
+      hostnameOverride: peer-1
 
 channels:
   mychannel:
     peers:
-      org0-peer0:
+      peer-1:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
@@ -51,14 +51,14 @@ channels:
 entityMatchers:
   orderer:
   - pattern: orderer0
-    urlSubstitutionExp: grpcs://localhost:30100
+    urlSubstitutionExp: grpcs://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
     sslTargetOverrideUrlSubstitutionExp: orderer0
     mappedHost: orderer0
   peer:
-  - pattern: org0-peer0
-    urlSubstitutionExp: grpcs://localhost:30200
-    sslTargetOverrideUrlSubstitutionExp: org0-peer0
-    mappedHost: org0-peer0
+  - pattern: peer-1
+    urlSubstitutionExp: grpcs:anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
+    sslTargetOverrideUrlSubstitutionExp: peer-1
+    mappedHost: peer-1
 
 # TLS
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/User1@Org0/tls/ca.crt certs/tls
@@ -71,14 +71,14 @@ entityMatchers:
 
 # -----------------------------------------------------------
 
-# TLS
+# # TLS
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/Admin@Org0/tls/ca.crt certs/tls/ca.crt
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/Admin@Org0/tls/client.crt certs/tls/client.crt
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/Admin@Org0/tls/client.key certs/tls/client.key
 
-# MSP
+# # MSP
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/Admin@Org0/msp/signcerts/Admin@Org0-cert.pem certs/msp/Admin@Org0-cert.pem
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/Admin@Org0/msp/keystore/priv_sk certs/msp/priv_sk
 
-# Orderer
+# # Orderer
 # kubectl cp fabric-tools:/data/crypto-config/ordererOrganizations/consortium/tlsca/tlsca.consortium-cert.pem certs/orderer

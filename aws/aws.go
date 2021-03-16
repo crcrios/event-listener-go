@@ -1,7 +1,6 @@
 package aws
 
 import (
-	"fmt"
 	
     "github.com/aws/aws-sdk-go/aws"
     "github.com/aws/aws-sdk-go/aws/session"
@@ -18,11 +17,15 @@ type TLS_STUCT struct {
 	Chain      string `json:"chain"`
 }
 
+var awsRegion = "us-east-1"
+var awsProfile = "acm-pca-blockchain"
+var awsArnCaCert = "arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20"
+
 func GetSecretValue(secretId string) (string, error) {
 
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
-		Config: aws.Config{Region: aws.String("us-east-1")},
+		Config: aws.Config{Region: aws.String(awsRegion)},
 	}))
 
 	smc := secretsmanager.New(sess)
@@ -42,8 +45,8 @@ func GetCertificate(CertificateArn string, CertificateAuthorityArn string)  (str
 
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
-		Config: aws.Config{Region: aws.String("us-east-1")},
-		Profile: "acm-pca-blockchain",
+		Config: aws.Config{Region: aws.String(awsRegion)},
+		Profile: awsProfile,
 	}))
 
 	apc := acmpca.New(sess)
@@ -69,13 +72,7 @@ func ProvisionTlsCertificates() (err error) {
 
 	var tlsResult TLS_STUCT
 	err = json.Unmarshal([]byte(secretString), &tlsResult)
-	fmt.Println(tlsResult.Key)
-	fmt.Println("################")
-	fmt.Println(tlsResult.Cer)
-	fmt.Println("################")
-	fmt.Println(tlsResult.Chain)
-	fmt.Println("################")
-	
+
 	err = ioutil.WriteFile("certs/tls/ca.crt", []byte(tlsResult.Chain), 0644)
 	if err != nil {
 		return
@@ -99,12 +96,12 @@ func ProvisionMspCertificates() (err error) {
 		return
 	}
 
-	certificate,err := GetCertificate(secretString, "arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20")
+	certificate,err := GetCertificate(secretString, awsArnCaCert)
 	if err != nil {
 		return
 	}
 
-	err = ioutil.WriteFile("certs/msp/Admin@Org0-cert.pem", []byte(certificate), 0644)
+	err = ioutil.WriteFile("certs/msp/Admin@Bancolombia-cert.pem", []byte(certificate), 0644)
 	if err != nil {
 		return
 	}
@@ -121,3 +118,5 @@ func ProvisionMspCertificates() (err error) {
 
 	return
 }
+
+//git clone https://github.com/crcrios/event-listener-go.git

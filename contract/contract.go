@@ -139,10 +139,3 @@ func GetContract(gw *gateway.Gateway, channelName string, contractName string) (
 	contract = network.GetContract(contractName)
 	return
 }
-
-
-// func ProvisionAwsIdentity(userCertPath string, privateKeyPath string) error {
-
-
-
-// }
