@@ -15,10 +15,10 @@ const (
 	walletPath          = "wallet"
 	walletIdentityLabel = "appUser"
 	userCertPath        = "certs/msp/Admin@Bancolombia-cert.pem"
-	privateKeyPath      = "certs\\msp\\priv_sk"
+	privateKeyPath      = "certs/msp/priv_sk"
 	channelName         = "dech"
 	contractName        = "dech"
-	conectionConfigPath = "network\\connection-dev.yaml"
+	conectionConfigPath = "network/connection-dev.yaml"
 )
 
 func main() {
