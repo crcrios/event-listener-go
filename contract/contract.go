@@ -3,6 +3,7 @@ package contract
 import (
 	"io/ioutil"
 	"path/filepath"
+	""
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
@@ -26,16 +27,19 @@ import (
 func GetContractWithConfig(conectionConfigFilePath string, walletPath string, orgMSPId string, walletIdentityLabel string, userCertPath string, privateKeyPath string, channelName string, contractName string) (contract *gateway.Contract, err error) {
 	wallet, err := CreateFileSystemWallet(walletPath, orgMSPId, walletIdentityLabel, userCertPath, privateKeyPath)
 	if err != nil {
+		fmt.Println("1")
 		return
 	}
 
 	gw, err := ConnectToGateway(conectionConfigFilePath, wallet, walletIdentityLabel)
 	if err != nil {
+		fmt.Println("2")
 		return
 	}
 
 	contract, err = GetContract(gw, channelName, contractName)
 	if err != nil {
+		fmt.Println("3")
 		return
 	}
 	return
