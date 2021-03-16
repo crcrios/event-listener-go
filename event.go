@@ -31,7 +31,7 @@ func main() {
 
 	log.Println("Inicio!")
 
-	callFunction(contract)
+	//callFunction(contract)
 
 	log.Println("Obteniendo credenciales")
 	aws.ProvisionTlsCertificates()
