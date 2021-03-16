@@ -3,46 +3,53 @@ package main
 import (
 	"log"
 
-	//"event/contract"
+	"event/contract"
 
-	"event/aws"
+	//"event/aws"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
 )
 
 const (
-	orgMSP              = "Org0"
+	orgMSP              = "007"
 	walletPath          = "wallet"
 	walletIdentityLabel = "appUser"
-	userCertPath        = "certs\\msp\\Admin@Org0-cert.pem"
+	userCertPath        = "certs\\msp\\Admin@Bancolombia-cert.pem"
 	privateKeyPath      = "certs\\msp\\priv_sk"
-	channelName         = "mychannel"
-	contractName        = "basic"
+	channelName         = "dech"
+	contractName        = "dech"
 	conectionConfigPath = "network\\connection-dev.yaml"
 )
 
 func main() {
 	//api.HandleRequests()
 
-	// contract, err := contract.GetContractWithConfig(conectionConfigPath, walletPath, orgMSP, walletIdentityLabel, userCertPath, privateKeyPath, channelName, contractName)
-	// if err != nil {
-	// 	log.Fatalf("Failed to get contract: %v", err)
-	// }
+	contract, err := contract.GetContractWithConfig(conectionConfigPath, walletPath, orgMSP, walletIdentityLabel, userCertPath, privateKeyPath, channelName, contractName)
+	if err != nil {
+		log.Fatalf("Failed to get contract: %v", err)
+	}
 
 	log.Println("Inicio!")
 
+	callFunction(contract)
+
+	log.Println("Obteniendo credenciales")
 	aws.ProvisionTlsCertificates()
 	aws.ProvisionMspCertificates()
+
+	log.Println("Llamando funcion")
+
+	callFunction(contract)
 	//eventListener(contract)
-	// callFunction(contract)
+	
 
 	log.Println("Funciona!")
 }
 
 func callFunction(contract *gateway.Contract) {
 	//result, err := contract.SubmitTransaction("Clear")
-	//result, err := contract.EvaluateTransaction("QueryCouchDB", "{\"selector\":{}}")
-	result, err := contract.EvaluateTransaction("GetAllAssets", "{\"selector\":{}}")
+	result, err := contract.EvaluateTransaction("QueryCouchDB", "{\"selector\":{}}")
+	//result, err := contract.EvaluateTransaction("GetAllAssets", "{\"selector\":{}}")
 
 	if err != nil {
 		log.Fatalf("Failed to Submit transaction: %v", err)

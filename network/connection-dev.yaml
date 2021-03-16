@@ -25,7 +25,7 @@ orderers:
   orderer0:
     url: grpc://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
     tlsCACerts:
-      path: certs/orderer/tlsca.consortium-cert.pem
+      path: certs/orderer/tlsca.Bancolombia-cert.pem
     grpcOptions:
       ssl-target-name-override: orderer0
       hostnameOverride: orderer0
