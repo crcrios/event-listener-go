@@ -5,7 +5,7 @@ import (
 
 	"event/contract"
 
-	//"event/aws"
+	"event/aws"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
 )
