@@ -3,7 +3,7 @@ package contract
 import (
 	"io/ioutil"
 	"path/filepath"
-	""
+	"fmt"
 
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/gateway"
