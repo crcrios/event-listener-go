@@ -23,7 +23,7 @@ organizations:
 
 orderers:
   orderer0:
-    url: grpc://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
+    url: grpc://orderer-test-interoperabilidad-dev.apps.ambientesbc.com:7050
     tlsCACerts:
       path: certs/orderer/tlsca.Bancolombia-cert.pem
     grpcOptions:
@@ -32,7 +32,7 @@ orderers:
 
 peers:
   peer-1:
-    url: grpcs://anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
+    url: grpcs://anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:7051
     tlsCACerts:
       path: certs/tls/ca.crt
     grpcOptions:
@@ -51,12 +51,12 @@ channels:
 entityMatchers:
   orderer:
   - pattern: orderer0
-    urlSubstitutionExp: grpcs://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
+    urlSubstitutionExp: grpcs://orderer-test-interoperabilidad-dev.apps.ambientesbc.com:7050
     sslTargetOverrideUrlSubstitutionExp: orderer0
     mappedHost: orderer0
   peer:
   - pattern: peer-1
-    urlSubstitutionExp: grpcs:anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
+    urlSubstitutionExp: grpcs:anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:7051
     sslTargetOverrideUrlSubstitutionExp: peer-1
     mappedHost: peer-1
 
