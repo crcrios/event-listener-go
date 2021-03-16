@@ -14,7 +14,7 @@ const (
 	orgMSP              = "007"
 	walletPath          = "wallet"
 	walletIdentityLabel = "appUser"
-	userCertPath        = "certs\\msp\\Admin@Bancolombia-cert.pem"
+	userCertPath        = "certs/msp/Admin@Bancolombia-cert.pem"
 	privateKeyPath      = "certs\\msp\\priv_sk"
 	channelName         = "dech"
 	contractName        = "dech"
@@ -35,7 +35,13 @@ func main() {
 
 	log.Println("Obteniendo credenciales")
 	aws.ProvisionTlsCertificates()
+	if err != nil {
+		log.Fatalf("Failed to Get Certificates: %v", err)
+	}
 	aws.ProvisionMspCertificates()
+	if err != nil {
+		log.Fatalf("Failed to Get Certificates: %v", err)
+	}
 
 	log.Println("Llamando funcion")
 
