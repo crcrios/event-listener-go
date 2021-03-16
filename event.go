@@ -22,6 +22,15 @@ const (
 )
 
 func main() {
+
+	erraws := aws.ProvisionTlsCertificates()
+	if erraws != nil {
+		log.Fatalf("Failed to Get Certificates: %v", erraws)
+	}
+	erraws =aws.ProvisionMspCertificates()
+	if erraws != nil {
+		log.Fatalf("Failed to Get Certificates: %v", erraws)
+	}
 	//api.HandleRequests()
 
 	contract, err := contract.GetContractWithConfig(conectionConfigPath, walletPath, orgMSP, walletIdentityLabel, userCertPath, privateKeyPath, channelName, contractName)
@@ -30,20 +39,6 @@ func main() {
 	}
 
 	log.Println("Inicio!")
-
-	//callFunction(contract)
-
-	log.Println("Obteniendo credenciales")
-	aws.ProvisionTlsCertificates()
-	if err != nil {
-		log.Fatalf("Failed to Get Certificates: %v", err)
-	}
-	aws.ProvisionMspCertificates()
-	if err != nil {
-		log.Fatalf("Failed to Get Certificates: %v", err)
-	}
-
-	log.Println("Llamando funcion")
 
 	callFunction(contract)
 	//eventListener(contract)
