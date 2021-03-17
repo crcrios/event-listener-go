@@ -41,8 +41,6 @@ peers:
 
 channels:
   dech:
-    orderers:
-      - orderer-interoperabilidad-dev.apps.ambientesbc.com
     peers:
       anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
         endorsingPeer: true
