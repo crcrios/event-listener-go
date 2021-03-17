@@ -40,7 +40,7 @@ peers:
       hostnameOverride: peer-1
 
 channels:
-  mychannel:
+  dech:
     peers:
       peer-1:
         endorsingPeer: true
