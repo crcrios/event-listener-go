@@ -17,7 +17,7 @@ const (
 	userCertPath        = "certs/msp/Admin@Bancolombia-cert.pem"
 	privateKeyPath      = "certs/msp/priv_sk"
 	channelName         = "dech"
-	contractName        = "dech"
+	contractName        = "basic"
 	conectionConfigPath = "network/connection-dev.yaml"
 )
 
