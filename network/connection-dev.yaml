@@ -14,15 +14,6 @@ client:
       cert:
         path: certs/tls/client.crt
 
-  BCCSP:
-    security:
-      enabled: true
-      default:
-        provider: "SW"
-      hashAlgorithm: "SHA2"
-      softVerify: true
-      level: 256
-
 organizations:
   Bancolombia:
     mspid: '007'
@@ -30,13 +21,14 @@ organizations:
       - anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
 
 orderers:
-  orderer:
+  orderer-interoperabilidad-dev.apps.ambientesbc.com:
     url: grpc://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
     tlsCACerts:
       path: certs/orderer/tlsca.Bancolombia-cert.pem
     grpcOptions:
-      ssl-target-name-override: orderer
-      hostnameOverride: orderer
+      ssl-target-name-override: orderer-interoperabilidad-dev.apps.ambientesbc.com
+      hostnameOverride: orderer-interoperabilidad-dev.apps.ambientesbc.com
+
 
 peers:
   anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
@@ -49,6 +41,8 @@ peers:
 
 channels:
   dech:
+    orderers:
+      - orderer-interoperabilidad-dev.apps.ambientesbc.com
     peers:
       anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
         endorsingPeer: true
@@ -58,10 +52,10 @@ channels:
 
 entityMatchers:
   orderer:
-  - pattern: orderer
+  - pattern: orderer-interoperabilidad-dev.apps.ambientesbc.com
     urlSubstitutionExp: grpcs://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
-    sslTargetOverrideUrlSubstitutionExp: orderer
-    mappedHost: orderer
+    sslTargetOverrideUrlSubstitutionExp: orderer-interoperabilidad-dev.apps.ambientesbc.com
+    mappedHost: orderer-interoperabilidad-dev.apps.ambientesbc.com
   peer:
   - pattern: anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
     urlSubstitutionExp: grpcs:anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
