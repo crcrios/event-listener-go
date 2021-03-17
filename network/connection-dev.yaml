@@ -18,11 +18,11 @@ organizations:
   Bancolombia:
     mspid: '007'
     peers:
-      - anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
+      - anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
 
 orderers:
   orderer:
-    url: grpc://orderer-test-interoperabilidad-dev.apps.ambientesbc.com:7050
+    url: grpc://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
     tlsCACerts:
       path: certs/orderer/tlsca.Bancolombia-cert.pem
     grpcOptions:
@@ -30,18 +30,18 @@ orderers:
       hostnameOverride: orderer
 
 peers:
-  anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:
-    url: grpcs://anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:7051
+  anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
+    url: grpcs://anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
     tlsCACerts:
       path: certs/tls/ca.crt
     grpcOptions:
-      ssl-target-name-override: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
-      hostnameOverride: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
+      ssl-target-name-override: anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
+      hostnameOverride: anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
 
 channels:
   dech:
     peers:
-      anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:
+      anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
@@ -50,14 +50,14 @@ channels:
 entityMatchers:
   orderer:
   - pattern: orderer
-    urlSubstitutionExp: grpcs://orderer-test-interoperabilidad-dev.apps.ambientesbc.com:7050
+    urlSubstitutionExp: grpcs://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
     sslTargetOverrideUrlSubstitutionExp: orderer
     mappedHost: orderer
   peer:
-  - pattern: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
-    urlSubstitutionExp: grpcs:anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:7051
-    sslTargetOverrideUrlSubstitutionExp: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
-    mappedHost: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
+  - pattern: anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
+    urlSubstitutionExp: grpcs:anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
+    sslTargetOverrideUrlSubstitutionExp: anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
+    mappedHost: anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
 
 # TLS
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/User1@Org0/tls/ca.crt certs/tls
