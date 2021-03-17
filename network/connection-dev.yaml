@@ -18,11 +18,11 @@ organizations:
   Bancolombia:
     mspid: '007'
     peers:
-      - peer-1
+      - anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
 
 orderers:
   orderer:
-    url: grpc://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
+    url: grpc://orderer-test-interoperabilidad-dev.apps.ambientesbc.com:7050
     tlsCACerts:
       path: certs/orderer/tlsca.Bancolombia-cert.pem
     grpcOptions:
@@ -30,13 +30,13 @@ orderers:
       hostnameOverride: orderer
 
 peers:
-  peer-1:
-    url: grpcs://anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
+  anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:
+    url: grpcs://anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:7051
     tlsCACerts:
       path: certs/tls/ca.crt
     grpcOptions:
-      ssl-target-name-override: peer-1
-      hostnameOverride: peer-1
+      ssl-target-name-override: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
+      hostnameOverride: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
 
 channels:
   dech:
@@ -50,14 +50,14 @@ channels:
 entityMatchers:
   orderer:
   - pattern: orderer
-    urlSubstitutionExp: grpcs://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
+    urlSubstitutionExp: grpcs://orderer-test-interoperabilidad-dev.apps.ambientesbc.com:7050
     sslTargetOverrideUrlSubstitutionExp: orderer
     mappedHost: orderer
   peer:
-  - pattern: peer-1
-    urlSubstitutionExp: grpcs:anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
-    sslTargetOverrideUrlSubstitutionExp: peer-1
-    mappedHost: peer-1
+  - pattern: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
+    urlSubstitutionExp: grpcs:anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:7051
+    sslTargetOverrideUrlSubstitutionExp: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
+    mappedHost: anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com
 
 # TLS
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/User1@Org0/tls/ca.crt certs/tls
