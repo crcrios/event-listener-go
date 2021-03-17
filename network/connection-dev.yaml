@@ -14,6 +14,15 @@ client:
       cert:
         path: certs/tls/client.crt
 
+  BCCSP:
+    security:
+      enabled: true
+      default:
+        provider: "SW"
+      hashAlgorithm: "SHA2"
+      softVerify: true
+      level: 256
+
 organizations:
   Bancolombia:
     mspid: '007'
@@ -40,12 +49,12 @@ peers:
 
 channels:
   dech:
-  peers:
-    anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
-      endorsingPeer: true
-      chaincodeQuery: true
-      ledgerQuery: true
-      eventSource: true
+    peers:
+      anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
 
 entityMatchers:
   orderer:
@@ -58,6 +67,9 @@ entityMatchers:
     urlSubstitutionExp: grpcs:anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
     sslTargetOverrideUrlSubstitutionExp: anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
     mappedHost: anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com
+
+
+
 
 # TLS
 # kubectl cp fabric-tools:/data/crypto-config/peerOrganizations/Org0/users/User1@Org0/tls/ca.crt certs/tls
