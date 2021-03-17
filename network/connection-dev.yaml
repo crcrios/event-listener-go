@@ -1,4 +1,3 @@
----
 name: test-network-org
 version: 1.0.0
 client:
@@ -22,17 +21,17 @@ organizations:
       - peer-1
 
 orderers:
-  orderer0:
-    url: grpc://orderer-test-interoperabilidad-dev.apps.ambientesbc.com:7050
+  orderer:
+    url: grpc://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
     tlsCACerts:
       path: certs/orderer/tlsca.Bancolombia-cert.pem
     grpcOptions:
-      ssl-target-name-override: orderer0
-      hostnameOverride: orderer0
+      ssl-target-name-override: orderer
+      hostnameOverride: orderer
 
 peers:
   peer-1:
-    url: grpcs://anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:7051
+    url: grpcs://anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
     tlsCACerts:
       path: certs/tls/ca.crt
     grpcOptions:
@@ -50,13 +49,13 @@ channels:
 
 entityMatchers:
   orderer:
-  - pattern: orderer0
-    urlSubstitutionExp: grpcs://orderer-test-interoperabilidad-dev.apps.ambientesbc.com:7050
-    sslTargetOverrideUrlSubstitutionExp: orderer0
-    mappedHost: orderer0
+  - pattern: orderer
+    urlSubstitutionExp: grpcs://orderer-interoperabilidad-dev.apps.ambientesbc.com:7050
+    sslTargetOverrideUrlSubstitutionExp: orderer
+    mappedHost: orderer
   peer:
   - pattern: peer-1
-    urlSubstitutionExp: grpcs:anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:7051
+    urlSubstitutionExp: grpcs:anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:7051
     sslTargetOverrideUrlSubstitutionExp: peer-1
     mappedHost: peer-1
 
