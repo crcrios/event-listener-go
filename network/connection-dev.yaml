@@ -41,7 +41,7 @@ peers:
 channels:
   dech:
     peers:
-      peer-1:
+      anchorpeer0-test-interoperabilidad-dev.apps.ambientesbc.com:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
