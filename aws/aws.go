@@ -21,7 +21,14 @@ var awsRegion = "us-east-1"
 var awsProfile = "acm-pca-blockchain"
 var awsArnCaCert = "arn:aws:acm-pca:us-east-1:872308410481:certificate-authority/ee2eadae-1a4e-4034-9f22-cc2626854c20"
 
-func GetSecretValue(secretId string) (string, error) {
+// GetSecretValue Get a secretString from the AWS secretManager service
+//   Parameters:
+//   secretId: Id of the secret to obtain.
+//
+//   Returns:
+//   secretString: secretString stored in secretManager.
+//   err: Error if exists.
+func GetSecretValue(secretId string) (secretString string, err error) {
 
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
@@ -38,10 +45,19 @@ func GetSecretValue(secretId string) (string, error) {
 		return "", err
 	}
 
-	return *result.SecretString, nil
+	secretString = *result.SecretString
+	return
 }
 
-func GetCertificate(CertificateArn string, CertificateAuthorityArn string)  (string, error) {
+// GetCertificate Get a certificate from the AWS ACMPCA service
+//   Parameters:
+//   CertificateArn: Arn of the certificate to be obtained.
+//	 CertificateAuthorityArn: Certificate CA Arn.
+//
+//   Returns:
+//   certificate: String with the requested certificate.
+//   err: Error if exists.
+func GetCertificate(CertificateArn string, CertificateAuthorityArn string)  (certificate string, err error) {
 
 	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		SharedConfigState: session.SharedConfigEnable,
@@ -59,8 +75,8 @@ func GetCertificate(CertificateArn string, CertificateAuthorityArn string)  (str
 	if err != nil {
 		return "",err
 	}
-
-	return *result.Certificate,nil
+	certificate = *result.Certificate
+	return
 }
 
 func ProvisionTlsCertificates() (err error) {
