@@ -40,12 +40,12 @@ peers:
 
 channels:
   dech:
-    peers:
-      anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
-        endorsingPeer: true
-        chaincodeQuery: true
-        ledgerQuery: true
-        eventSource: true
+  peers:
+    anchorpeer0-interoperabilidad-dev.apps.ambientesbc.com:
+      endorsingPeer: true
+      chaincodeQuery: true
+      ledgerQuery: true
+      eventSource: true
 
 entityMatchers:
   orderer:
